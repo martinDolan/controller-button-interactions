@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import React from 'react';
 import { useState, useEffect } from "react";
+import { useGamepads } from 'react-gamepads';
 
 function useKeyPress(targetKey) {
 
@@ -33,6 +34,14 @@ function useKeyPress(targetKey) {
 }
 
 function App() {
+
+	const [gamepads, setGamepads] = useState([]);
+
+	useGamepads( _gamepads => {
+		setGamepads(_gamepads)
+	} )
+
+	console.log(gamepads)
 
 	const xPress = useKeyPress("x");
 	const yPress = useKeyPress("y");
