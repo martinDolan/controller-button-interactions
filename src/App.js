@@ -42,7 +42,7 @@ function KeysPressed() {
 	const div = keysArr.map( (item) => {
 		const uniqueId = uuidv4();
 		return (
-			<div key={uniqueId}>{item}</div>
+			<div className="button-symbol" key={uniqueId}>{item}</div>
 		)
 
 	} );
@@ -55,9 +55,9 @@ function App() {
 
   return (
     <div className="App">
-		<div class="container">
-				Connect your controller.
-			<div class="button-area">
+		<div className="container">
+			<div className="info">Connect your controller.</div>
+			<div className="button-area">
 				{ KeysPressed() }
 			</div>
 		</div>
