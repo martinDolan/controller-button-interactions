@@ -1,3 +1,16 @@
+.container {
+	max-width: 1000px;
+    display: flex;
+	flex-direction: column;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.button-area {
+	display: flex;
+	justify-content: center;
+}
+
 .App {
   text-align: center;
 }
