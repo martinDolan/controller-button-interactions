@@ -1,6 +1,7 @@
 import './App.css';
 import React from 'react';
 import { useState, useEffect } from "react";
+import { v4 as uuidv4 } from 'uuid';
 
 function KeysPressed() {
 
@@ -37,7 +38,15 @@ function KeysPressed() {
 	  }, []);
 
 
-	const div = keysArr.map( item => <div>{item}</div> );
+	//const div = keysArr.map( item => (<div id="">{item}</div>) );
+	const div = keysArr.map( (item) => {
+		const uniqueId = uuidv4();
+		return (
+			<div key={uniqueId}>{item}</div>
+		)
+
+	} );
+
 
 	return div;
 }
@@ -49,7 +58,7 @@ function App() {
 		<div class="container">
 				Connect your controller.
 			<div class="button-area">
-				<KeysPressed />
+				{ KeysPressed() }
 			</div>
 		</div>
     </div>
