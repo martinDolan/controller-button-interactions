@@ -5,13 +5,19 @@ import { useState, useEffect } from "react";
 function KeysPressed() {
 
 
-	const [keysArr, setKeysArr] = useState([]);
+	const [keysArr, setKeysArr] = useState(
+		() => JSON.parse(window.localStorage.getItem('buttons')) || Array(0),
+	);
 
 	const allowedKeys = ['x', 'y', 'a', 'b'];
 
 	function updateKeysArr(uppercaseKey) {
 		setKeysArr(keysArr => [...keysArr, uppercaseKey])
 	}
+
+	React.useEffect(() => {
+		window.localStorage.setItem('buttons', JSON.stringify(keysArr))
+	}, [keysArr])
 
 	function testKeyInput({ key }) {
 
