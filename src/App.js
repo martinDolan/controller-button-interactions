@@ -1,23 +1,58 @@
 import logo from './logo.svg';
 import './App.css';
+import React from 'react';
+import { useState, useEffect } from "react";
+
+function useKeyPress(targetKey) {
+
+	const [keyPressed, setKeyPressed] = useState(false);
+
+	function downHandler({ key }) {
+	  if (key === targetKey) {
+		setKeyPressed(true);
+	  }
+	}
+
+	const upHandler = ({ key }) => {
+	  if (key === targetKey) {
+		setKeyPressed(false);
+	  }
+	};
+
+	useEffect(() => {
+	  window.addEventListener("keydown", downHandler);
+	  window.addEventListener("keyup", upHandler);
+
+	  // Remove event listeners on cleanup
+	  return () => {
+		window.removeEventListener("keydown", downHandler);
+		window.removeEventListener("keyup", upHandler);
+	  };
+	}, []);
+	return keyPressed;
+}
 
 function App() {
+
+	const xPress = useKeyPress("x");
+	const yPress = useKeyPress("y");
+	const aPress = useKeyPress("a");
+	const bPress = useKeyPress("b");
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+		<div class="container">
+			<div class="button-area">
+
+				Connect your controller.
+
+				{xPress && "X"}
+				{yPress && "Y"}
+				{aPress && "A"}
+				{bPress && "B"}
+
+			</div>
+		</div>
     </div>
   );
 }
