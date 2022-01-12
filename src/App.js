@@ -3,45 +3,16 @@ import './App.css';
 import React from 'react';
 import { useState, useEffect } from "react";
 import { useGamepads } from 'react-gamepads';
-
-function useKeyPress(targetKey) {
-
-	const [keyPressed, setKeyPressed] = useState(false);
-
-	function downHandler({ key }) {
-	  if (key === targetKey) {
-		setKeyPressed(true);
-	  }
-	}
-
-	const upHandler = ({ key }) => {
-	  if (key === targetKey) {
-		setKeyPressed(false);
-	  }
-	};
-
-	useEffect(() => {
-	  window.addEventListener("keydown", downHandler);
-	  window.addEventListener("keyup", upHandler);
-
-	  // Remove event listeners on cleanup
-	  return () => {
-		window.removeEventListener("keydown", downHandler);
-		window.removeEventListener("keyup", upHandler);
-	  };
-	}, []);
-	return keyPressed;
-}
+import useKeyPress from './utils/useKeyPress';
 
 function App() {
 
 	const [gamepads, setGamepads] = useState([]);
+	const keysPressedArr = ['X', 'X', 'A', 'B', 'Y'];
 
 	useGamepads( _gamepads => {
 		setGamepads(_gamepads)
 	} )
-
-	console.log(gamepads)
 
 	const xPress = useKeyPress("x");
 	const yPress = useKeyPress("y");
@@ -51,10 +22,10 @@ function App() {
   return (
     <div className="App">
 		<div class="container">
+				Connect your controller.
 			<div class="button-area">
 
-				Connect your controller.
-
+				{keysPressedArr}
 				{xPress && "X"}
 				{yPress && "Y"}
 				{aPress && "A"}
