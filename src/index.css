@@ -15,14 +15,3 @@ code {
 * {
 	outline: 1px solid orange;
 }
-
-.container {
-	max-width: 1000px;
-    display: flex;
-    justify-content: center;
-    margin: 0 auto;
-}
-
-.button-area {
-	display: flex;
-}
