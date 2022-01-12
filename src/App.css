@@ -17,14 +17,29 @@
 }
 
 .button-symbol {
-	background-color: green;
+	background-color: black;
 	padding: 20px;
 	border-radius: 100px;
 	margin: 10px;
-    color: white;
     font-weight: bold;
 	width: 20px;
 	height: 20px;
+}
+
+.button-symbol.button-x {
+	color: lightskyblue;
+}
+
+.button-symbol.button-y {
+	color: yellow;
+}
+
+.button-symbol.button-a {
+	color: red;
+}
+
+.button-symbol.button-b {
+	color: greenyellow;
 }
 
 .info {

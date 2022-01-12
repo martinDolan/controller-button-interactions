@@ -42,7 +42,7 @@ function KeysPressed() {
 	const div = keysArr.map( (item) => {
 		const uniqueId = uuidv4();
 		return (
-			<div className="button-symbol" key={uniqueId}>{item}</div>
+			<div className={'button-symbol ' + 'button-' + item.toLowerCase()} key={uniqueId}>{item}</div>
 		)
 
 	} );
