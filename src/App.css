@@ -16,14 +16,18 @@
   text-align: center;
 }
 
+body {
+	background-color: #01010e;
+}
+
 .button-symbol {
-	background-color: black;
+	background-color: #242323;
 	border-radius: 100px;
 	margin: 10px;
     font-weight: bold;
 	width: 30px;
     height: 30px;
-    font-size: 24px;
+    font-size: 20px;
 }
 
 .button-symbol.button-x {
@@ -44,4 +48,5 @@
 
 .info {
 	margin-bottom: 20px;
+	color: #fff;
 }
