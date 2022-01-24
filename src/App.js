@@ -2,6 +2,7 @@ import "./App.css";
 import React from "react";
 import { useState, useRef } from "react";
 import KeysPressed from "./components/KeysPressed";
+import ConnectYourController from "./components/ConnectYourController";
 
 function App() {
 	const [gamePadState, setGamePadState] = useState(
@@ -12,7 +13,7 @@ function App() {
 	return (
 		<div className="App">
 			<div className="container">
-				<div className="info">Connect your controller.</div>
+				<ConnectYourController gamePadState={gamePadState} />
 				<div className="button-area">
 					<KeysPressed
 						clickRef={clickRef}
