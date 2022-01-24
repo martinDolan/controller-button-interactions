@@ -1,14 +1,10 @@
 import { useEffect } from "react";
 
 
-function ConnectYourController({ gamePadState }) {
-
-	useEffect(() => {
-
-	},[gamePadState])
+function ConnectYourController({ clickRef }) {
 
 	return (
-		<div className="info">Connect your controller</div>
+		<div className="info">{clickRef.current.id ? clickRef.current.id : 'Connect your controller'}</div>
 	)
 }
 

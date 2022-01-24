@@ -13,7 +13,7 @@ function App() {
 	return (
 		<div className="App">
 			<div className="container">
-				<ConnectYourController gamePadState={gamePadState} />
+				<ConnectYourController clickRef={clickRef} />
 				<div className="button-area">
 					<KeysPressed
 						clickRef={clickRef}
