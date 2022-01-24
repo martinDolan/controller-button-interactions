@@ -2,10 +2,6 @@ import './App.css';
 import React from 'react';
 import { useState, useEffect, useRef } from "react";
 import { v4 as uuidv4 } from 'uuid';
-// import { useGamepads } from 'react-gamepads';
-// import debounce from 'lodash.debounce';
-// import AwesomeDebouncePromise from 'awesome-debounce-promise'
-
 
 function KeysPressed() {
 
@@ -53,15 +49,12 @@ function KeysPressed() {
 			}
 		}
 	},[gamePadState])
-	//const [gamepads, setGamepads] = useState([]);
 
 	const [keysArr, setKeysArr] = useState(
 		() => JSON.parse(window.localStorage.getItem('buttons')) || Array(0),
 	);
 
 	const allowedKeys = ['x', 'y', 'a', 'b'];
-
-	let debouncedKey = useRef('test');
 
 	function updateKeysArr(uppercaseKey) {
 		setKeysArr(keysArr => [...keysArr, uppercaseKey])
