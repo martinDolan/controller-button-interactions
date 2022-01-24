@@ -9,7 +9,37 @@ import { v4 as uuidv4 } from 'uuid';
 
 function KeysPressed() {
 
-	const [gamepads, setGamepads] = useState([]);
+	const [gamePadState, setGamePadState] = useState(() => navigator.getGamepads()[0]);
+	const clickRef = useRef({});
+
+	function pollgamepads() {
+		return navigator.getGamepads();
+	}
+
+	function tick() {
+		// Set the gamePadState from pollGamepads
+		// call tick() recusively
+		setGamePadState(pollgamepads())
+		window.requestAnimationFrame(() => tick())
+	}
+
+	useEffect(() => {
+		tick();
+
+		if(gamePadState) {
+			const gamePadArr = Object.values(gamePadState)
+
+			if(gamePadArr[0] !== null) {
+				clickRef.current = gamePadArr[0];
+
+				if(clickRef.current.buttons[0].pressed === true) {
+					console.log('oh yeah')
+					testKeyInput({key: 'a'});
+				}
+			}
+		}
+	},[gamePadState])
+	//const [gamepads, setGamepads] = useState([]);
 
 	const [keysArr, setKeysArr] = useState(
 		() => JSON.parse(window.localStorage.getItem('buttons')) || Array(0),
@@ -28,6 +58,7 @@ function KeysPressed() {
 	}, [keysArr])
 
 	function testKeyInput({ key }) {
+
 		if ( allowedKeys.includes(key.toLowerCase()) ) {
 			const uppercaseKey = key.toUpperCase();
 			updateKeysArr(uppercaseKey);
@@ -65,36 +96,6 @@ function KeysPressed() {
 }
 
 function App() {
-
-	const [gamePadState, setGamePadState] = useState(() => navigator.getGamepads()[0]);
-	const clickRef = useRef({});
-
-	function pollgamepads() {
-		return navigator.getGamepads();
-	}
-
-	function tick() {
-		// Set the gamePadState from pollGamepads
-		// call tick() recusively
-		setGamePadState(pollgamepads())
-		window.requestAnimationFrame(() => tick())
-	}
-
-	useEffect(() => {
-		tick();
-
-		if(gamePadState) {
-			const gamePadArr = Object.values(gamePadState)
-
-			if(gamePadArr[0] !== null) {
-				clickRef.current = gamePadArr[0];
-
-				if(clickRef.current.buttons[0].pressed === true) {
-					console.log('oh yeah')
-				}
-			}
-		}
-	},[gamePadState])
 
   return (
     <div className="App">
