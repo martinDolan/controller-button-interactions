@@ -1,29 +1,25 @@
-import './App.css';
-import React from 'react';
+import "./App.css";
+import React from "react";
 import { useState, useEffect, useRef } from "react";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
-function KeysPressed() {
-
-	const [gamePadState, setGamePadState] = useState(() => navigator.getGamepads()[0]);
-	const clickRef = useRef({});
-
+function KeysPressed({ gamePadState, setGamePadState, clickRef }) {
 	function pollgamepads() {
 		return navigator.getGamepads();
 	}
 
 	function tick() {
-		setGamePadState(pollgamepads())
-		window.requestAnimationFrame(() => tick())
+		setGamePadState(pollgamepads());
+		window.requestAnimationFrame(() => tick());
 	}
 
 	useEffect(() => {
 		tick();
 
-		if(gamePadState) {
-			const gamePadArr = Object.values(gamePadState)
+		if (gamePadState) {
+			const gamePadArr = Object.values(gamePadState);
 
-			if(gamePadArr[0] !== null) {
+			if (gamePadArr[0] !== null) {
 				clickRef.current = gamePadArr[0];
 
 				const aPressed = clickRef.current.buttons[0].pressed;
@@ -31,53 +27,51 @@ function KeysPressed() {
 				const xPressed = clickRef.current.buttons[2].pressed;
 				const yPressed = clickRef.current.buttons[3].pressed;
 
-				if(aPressed === true) {
-					testKeyInput({key: 'a'});
+				if (aPressed === true) {
+					testKeyInput({ key: "a" });
 				}
 
-				if(bPressed === true) {
-					testKeyInput({key: 'b'});
+				if (bPressed === true) {
+					testKeyInput({ key: "b" });
 				}
 
-				if(xPressed === true) {
-					testKeyInput({key: 'x'});
+				if (xPressed === true) {
+					testKeyInput({ key: "x" });
 				}
 
-				if(yPressed === true) {
-					testKeyInput({key: 'y'});
+				if (yPressed === true) {
+					testKeyInput({ key: "y" });
 				}
 			}
 		}
-	},[gamePadState])
+	}, [gamePadState]);
 
 	const [keysArr, setKeysArr] = useState(
-		() => JSON.parse(window.localStorage.getItem('buttons')) || Array(0),
+		() => JSON.parse(window.localStorage.getItem("buttons")) || Array(0)
 	);
 
-	const allowedKeys = ['x', 'y', 'a', 'b'];
+	const allowedKeys = ["x", "y", "a", "b"];
 
 	function updateKeysArr(uppercaseKey) {
-		setKeysArr(keysArr => [...keysArr, uppercaseKey])
+		setKeysArr((keysArr) => [...keysArr, uppercaseKey]);
 	}
 
 	useEffect(() => {
-		window.localStorage.setItem('buttons', JSON.stringify(keysArr))
-	}, [keysArr])
+		window.localStorage.setItem("buttons", JSON.stringify(keysArr));
+	}, [keysArr]);
 
 	function testKeyInput({ key }) {
-
-		if ( allowedKeys.includes(key.toLowerCase()) ) {
+		if (allowedKeys.includes(key.toLowerCase())) {
 			const uppercaseKey = key.toUpperCase();
 			updateKeysArr(uppercaseKey);
 		}
 	}
 
-	function testGamepadInput( button ) {
-		console.log(button)
-		if ( allowedKeys.includes(button.toLowerCase()) ) {
+	function testGamepadInput(button) {
+		console.log(button);
+		if (allowedKeys.includes(button.toLowerCase())) {
 			const uppercaseKey = button.toUpperCase();
 			updateKeysArr(uppercaseKey);
-
 		}
 	}
 
@@ -86,35 +80,45 @@ function KeysPressed() {
 
 		// Remove event listeners on cleanup
 		return () => {
-		  window.removeEventListener("keydown", testKeyInput);
+			window.removeEventListener("keydown", testKeyInput);
 		};
-	  }, []);
+	}, []);
 
-	const div = keysArr.map( (item) => {
+	const div = keysArr.map((item) => {
 		const uniqueId = uuidv4();
 		return (
-			<button className={'button-symbol ' + 'button-' + item.toLowerCase()} key={uniqueId}>{item}</button>
-		)
-
-	} );
-
+			<button
+				className={"button-symbol " + "button-" + item.toLowerCase()}
+				key={uniqueId}
+			>
+				{item}
+			</button>
+		);
+	});
 
 	return div;
 }
 
 function App() {
+	const [gamePadState, setGamePadState] = useState(
+		() => navigator.getGamepads()[0]
+	);
+	const clickRef = useRef({});
 
-  return (
-    <div className="App">
-		<div className="container">
-			<div className="info">Connect your controller.
-			</div>
-			<div className="button-area">
-				<KeysPressed />
+	return (
+		<div className="App">
+			<div className="container">
+				<div className="info">Connect your controller.</div>
+				<div className="button-area">
+					<KeysPressed
+						clickRef={clickRef}
+						setGamePadState={setGamePadState}
+						gamePadState={gamePadState}
+					/>
+				</div>
 			</div>
 		</div>
-    </div>
-  );
+	);
 }
 
 export default App;
