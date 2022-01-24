@@ -7,40 +7,22 @@ import debounce from 'lodash.debounce';
 import AwesomeDebouncePromise from 'awesome-debounce-promise'
 
 
-// const myGamepad = navigator.getGamepads();
-// console.log(myGamepad[0])
+// function checkGamepad() {
+// 	window.addEventListener('gamepadconnected', event => {
 
-// window.addEventListener("gamepadbuttondown", function(e){
-// 	// Button down
-// 	console.log(
+// 		let result = event.gamepad.id;
+// 		return result;
+// 		// All buttons and axes values can be accessed through
+// 		console.log(event.gamepad.id)
+// 		//event.gamepad;
 
-// 	   "Button down",
-// 	   e.button, // Index of button in buttons array
-// 	   e.gamepad
-
-// 	);
-//  });
-
-// setInterval(() => {
-//     const myGamepad = navigator.getGamepads()[0];
-//     console.log(`Left stick at (${myGamepad.axes[0]}, ${myGamepad.axes[1]})` );
-//     console.log(`Right stick at (${myGamepad.axes[2]}, ${myGamepad.axes[3]})` );
-// }, 100)
-
+// 	}, false);
+// }
 
 function KeysPressed() {
 
 	const [gamepads, setGamepads] = useState([]);
-	const [gamepad, setGamepad] = useState(() => navigator.getGamepads()[0]);
-
-	//console.log('gamepad', gamepad)
-
-	// useEffect(() => {
-
-	// 	console.log(gamepad)
-	// }, [gamepad])
-
-
+	// const [gamepad, setGamepad] = useState(() => navigator.getGamepads()[0]);
 
 	const [keysArr, setKeysArr] = useState(
 		() => JSON.parse(window.localStorage.getItem('buttons')) || Array(0),
@@ -54,16 +36,15 @@ function KeysPressed() {
 		setKeysArr(keysArr => [...keysArr, uppercaseKey])
 	}
 
-	useGamepads(gamepads => {
-		setGamepads(Object.values(gamepads))
-	})
+	// useGamepads(gamepads => {
+	// 	setGamepads(Object.values(gamepads))
+	// })
 
 	useEffect(() => {
 		window.localStorage.setItem('buttons', JSON.stringify(keysArr))
 	}, [keysArr])
 
 	function testKeyInput({ key }) {
-		console.log(key)
 		if ( allowedKeys.includes(key.toLowerCase()) ) {
 			const uppercaseKey = key.toUpperCase();
 			updateKeysArr(uppercaseKey);
@@ -88,34 +69,12 @@ function KeysPressed() {
 		};
 	  }, []);
 
-	// useEffect(() => {
-	// 	if(gamepads[0]) {
-	// 		console.log(gamepads[0].buttons[0])
-	// 		if(gamepads[0].buttons[0]) {
-	// 			//console.log(gamepads[0].buttons[0])
-	// 			// const test = testGamepadInput('a');
-	// 			// console.log(test)
-	// 			testGamepadInput('a')
-	// 			//return AwesomeDebouncePromise(() => testGamepadInput('a'), 500)
-	// 		}
-	// 		//console.log(gamepads[0].buttons[0].pressed)
-	// 	}
-	// }, [gamepads[0]])
 
-	useEffect(() => {
-		if(gamepad) {
-			// console.log(gamepad[0].buttons[0])
-			console.log(gamepad.buttons)
-			// if(gamepad[0].buttons[0]) {
-			// 	//console.log(gamepad[0].buttons[0])
-			// 	// const test = testGamepadInput('a');
-			// 	// console.log(test)
-			// 	//testGamepadInput('a')
-			// 	//return AwesomeDebouncePromise(() => testGamepadInput('a'), 500)
-			// }
-			//console.log(gamepad[0].buttons[0].pressed)
-		}
-	}, [gamepad])
+	// useEffect(() => {
+	// 	if(gamepad) {
+	// 		console.log(gamepad.buttons)
+	// 	}
+	// }, [gamepad])
 
 
 	const div = keysArr.map( (item) => {
@@ -132,36 +91,70 @@ function KeysPressed() {
 
 function App() {
 
-	// const [gamepads, setGamepads] = useState([]);
+	const [gamePadState, setGamePadState] = useState(() => navigator.getGamepads()[0]);
+	const clickRef = useRef({});
 
-	// useGamepads(gamepads => {
-	// 	setGamepads(Object.values(gamepads))
-	// })
+	// if(gamePadState){
 
-	// if(gamepads && gamepads[0]) {
-	// 	console.log(gamepads[0].buttons[0].pressed)
+	// 	let gamepadArr = Object.values(gamePadState)[0];
+
+
+	// 	console.log(gamepadArr)
+	// 	// if(gamepadArr) {
+
+	// 	// 	let test = Object.values(gamepadArr);
+	// 	// 	console.log(test)
+
+	// 	// }
+	// 	// if(gamepadArr[0]['buttons']) {
+
+	// 	// 	let test = gamepadArr[0]['buttons'];
+	// 	// }
 	// }
-	// useGamepads( gamepads => setGamepads(gamepads));
-	// console.log(gamepads[0].buttons)
+
+	function pollgamepads() {
+		return navigator.getGamepads();
+	}
+
+	function tick() {
+		// Set the gamePadState from pollGamepads
+		// call tick() recusively
+		setGamePadState(pollgamepads())
+		window.requestAnimationFrame(() => tick())
+		//console.log(gamePadState)
+	}
+
+	useEffect(() => {
+		tick();
+
+		if(gamePadState) {
+			const gamePadArr = Object.values(gamePadState)
+
+			if(gamePadArr[0] !== null) {
+				clickRef.current = gamePadArr[0];
+
+				// console.log(clickRef.current.buttons[0].pressed)
+				if(clickRef.current.buttons[0].pressed === true) {
+					console.log('oh yeah')
+				}
+			}
+		}
+	},[gamePadState])
+
+
+	// if(gamepadArr) {
+	// }
 
   return (
     <div className="App">
 		<div className="container">
 			<div className="info">Connect your controller.
-			{/* {gamepads.length && gamepads.map(gp => {
-				return (
-					<div>
-						<div><span>ID:</span>{gp.id}</div>
-						{gp.buttons.map((button, index) => {
-							return(
-								<div><span>#{index + 1}:</span>{button.value}</div>
-							)
-						})}
-					</div>
-				)
-			})} */}
 			</div>
 			<div className="button-area">
+
+			{/* {gamePadState.map((item) =>
+				item
+			)} */}
 				{ KeysPressed() }
 			</div>
 		</div>
