@@ -17,8 +17,6 @@ function KeysPressed() {
 	}
 
 	function tick() {
-		// Set the gamePadState from pollGamepads
-		// call tick() recusively
 		setGamePadState(pollgamepads())
 		window.requestAnimationFrame(() => tick())
 	}
