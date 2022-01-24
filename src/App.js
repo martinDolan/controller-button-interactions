@@ -32,9 +32,25 @@ function KeysPressed() {
 			if(gamePadArr[0] !== null) {
 				clickRef.current = gamePadArr[0];
 
-				if(clickRef.current.buttons[0].pressed === true) {
-					console.log('oh yeah')
+				const aPressed = clickRef.current.buttons[0].pressed;
+				const bPressed = clickRef.current.buttons[1].pressed;
+				const xPressed = clickRef.current.buttons[2].pressed;
+				const yPressed = clickRef.current.buttons[3].pressed;
+
+				if(aPressed === true) {
 					testKeyInput({key: 'a'});
+				}
+
+				if(bPressed === true) {
+					testKeyInput({key: 'b'});
+				}
+
+				if(xPressed === true) {
+					testKeyInput({key: 'x'});
+				}
+
+				if(yPressed === true) {
+					testKeyInput({key: 'y'});
 				}
 			}
 		}
@@ -103,7 +119,7 @@ function App() {
 			<div className="info">Connect your controller.
 			</div>
 			<div className="button-area">
-				{ KeysPressed() }
+				<KeysPressed />
 			</div>
 		</div>
     </div>
