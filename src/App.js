@@ -11,14 +11,13 @@ function App() {
 	);
 	const clickRef = useRef({});
 
-	useEffect(() => {
-		console.log(navigator.getGamepads()[0])
-	},[gamePadState])
-
 	return (
 		<div className="App">
 			<div className="container">
-				<ConnectYourController gamePadState={gamePadState} clickRef={clickRef} />
+				<ConnectYourController
+					gamePadState={gamePadState}
+					clickRef={clickRef}
+				/>
 				<div className="button-area">
 					<KeysPressed
 						clickRef={clickRef}
