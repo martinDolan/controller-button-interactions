@@ -3,7 +3,6 @@ import React from "react";
 import { useState, useRef } from "react";
 import KeysPressed from "./components/KeysPressed";
 import ConnectYourController from "./components/ConnectYourController";
-import { useEffect } from "react/cjs/react.development";
 
 function App() {
 	const [gamePadState, setGamePadState] = useState(
