@@ -68,14 +68,6 @@ function KeysPressed({ gamePadState, setGamePadState, clickRef }) {
 		}
 	}
 
-	function testGamepadInput(button) {
-		console.log(button);
-		if (allowedKeys.includes(button.toLowerCase())) {
-			const uppercaseKey = button.toUpperCase();
-			updateKeysArr(uppercaseKey);
-		}
-	}
-
 	useEffect(() => {
 		window.addEventListener("keydown", testKeyInput);
 
