@@ -39,11 +39,11 @@ body {
 }
 
 .button-symbol.button-a {
-	color: red;
+	color: greenyellow;
 }
 
 .button-symbol.button-b {
-	color: greenyellow;
+	color: red;
 }
 
 .info {
