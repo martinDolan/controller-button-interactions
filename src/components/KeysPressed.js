@@ -2,15 +2,21 @@ import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 function KeysPressed({ gamePadState, setGamePadState, clickRef }) {
+
+	// Get gamepad info from Gamepad API.
 	function pollgamepads() {
 		return navigator.getGamepads();
 	}
 
 	function tick() {
+		// Set Gamepad API return as state.
 		setGamePadState(pollgamepads());
+
+		//Update the output at 60 times per second.
 		window.requestAnimationFrame(() => tick());
 	}
 
+	// Set up initial state by calling once.
 	useEffect(() => {
 		tick();
 	}, []);
