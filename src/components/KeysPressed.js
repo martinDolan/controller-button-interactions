@@ -13,6 +13,9 @@ function KeysPressed({ gamePadState, setGamePadState, clickRef }) {
 
 	useEffect(() => {
 		tick();
+	}, []);
+
+	useEffect(() => {
 
 		if (gamePadState) {
 			const gamePadArr = Object.values(gamePadState);
